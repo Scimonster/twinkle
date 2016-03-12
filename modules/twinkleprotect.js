@@ -1296,7 +1296,7 @@ Twinkle.protect.callbacks = {
 				tag += '|reason=' + params.reason;
 			}
 			if( ['indefinite', 'infinite', 'never', null].indexOf(params.expiry) === -1 ) {
-				tag += '|expiry={{subst:#time:j F Y|' + (/^\s*\d+\s*$/.exec(params.expiry) ? params.expiry : '+' + params.expiry) + '}}';
+				tag += '|expiry={{subst:#time:H:i, j F Y|' + (/^\s*\d+\s*$/.exec(params.expiry) ? params.expiry : '+' + params.expiry) + '}}';
 			}
 			if( params.small ) {
 				tag += '|small=yes';
@@ -1403,12 +1403,13 @@ Twinkle.protect.callbacks = {
 
 		var reg;
 		if ( increase ) {
-			reg = /(\n==\s*Current requests for increase in protection level\s*==\s*\n\s*\{\{[^\}\}]+\}\}\s*\n)([\s\S]*?)\s*(\n==[^=])/;
+			reg = /(\n==\s*Current requests for reduction in protection level\s*==)/;
 		} else {
-			reg = /(\n==\s*Current requests for reduction in protection level\s*==\s*\n\s*\{\{[^\}\}]+\}\}\s*\n)([\s\S]*?)\s*(\n==[^=])/;
+			reg = /(\n==\s*Current requests for edits to a protected page\s*==)/;
 		}
+
 		var originalTextLength = text.length;
-		text = text.replace( reg, "$1$2\n\n" + newtag + "\n$3");
+		text = text.replace( reg, "\n" + newtag + "\n$1");
 		if (text.length === originalTextLength)
 		{
 			var linknode = document.createElement('a');
